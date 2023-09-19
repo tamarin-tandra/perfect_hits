@@ -10,6 +10,8 @@ bed_file=$(mktemp)
 blastn -query $1 \
     -subject $2 \
     -outfmt '6 std qlen' \
+    -task blastn-short \
+    | awk '$3==100 && $4==$13' \
     | cut -f2,9,10 > $blast_out
 paste \
 <(cut -f1 $blast_out | head -n -1) \
